@@ -78,9 +78,26 @@ function appendSearchBox() {
    divSearch.appendChild(button);
 }
 
+// searchName function takes in the parameters name and studentList 
+//    returns filterList: a new list of all the student names which include name
+function searchName(search,studentList) {
+   // This list will contain the list of students whos names match the search parameter
+   let filterList = [];
+   for (let i = 0; i < studentList.length; i++) {
+      // grab the student name that is stored in the h3 tags
+      const studentName = studentList[i].querySelector('h3').textContent;
+      if (search.length !== 0 && studentName.toLowerCase().includes(search.toLowerCase())) {
+         // adds the student name to the back of the filterList array
+         filterList.push(studentList[i]);
+      }
+   }
+   return filterList;
+}
+
 
 // calls showPage function to show the first maxDisplay items 
 showPage(studentList,1);
 // adds the pagination links to the bottom of the web page
 appendPageLinks(studentList);
+// add the search box and event listener to them
 appendSearchBox();
