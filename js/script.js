@@ -72,6 +72,7 @@ function appendSearchBox() {
    const input = document.createElement('input');
    input.placeholder = 'Search for students...';
    divSearch.appendChild(input);
+   // keyup event listener is added to the input text box and will call the searchName, showPage, and appendPageLinks funtions
    input.addEventListener('keyup', () => {
       const filterList = searchName(input.value,studentList);
       showPage(filterList,1);
@@ -81,6 +82,12 @@ function appendSearchBox() {
    const button = document.createElement('button');
    button.textContent = 'Search';
    divSearch.appendChild(button);
+   // click event listener is added to the search button and will call the searchName, showPage, and appendPageLinks funtions
+   button.addEventListener('click', () => {
+      const filterList = searchName(input.value,studentList);
+      showPage(filterList,1);
+      appendPageLinks(filterList);
+   })
 }
 
 // searchName function takes in the parameters name and studentList 
