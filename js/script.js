@@ -20,7 +20,7 @@ function showPage(studentList,page) {
 }
 
 
-// appendPageLinks takes in the list of students and generates functional pagination links. 
+// appendPageLinks function takes in the list of students and generates functional pagination links. 
 function appendPageLinks(studentList) {
    // numPageButton is the number of page buttons needed to only display maxDisplay items at a time 
    const numPageLinks = Math.ceil(studentList.length/maxDisplay);
@@ -60,7 +60,27 @@ function appendPageLinks(studentList) {
    divPage.appendChild(div);
 }
 
+// appendSearchBox function adds a search input box as a child of the div with the class "page-header"
+function appendSearchBox() {
+   // grab the div where we will want to insert the search input box
+   const divHeader = document.querySelector('.page-header');   
+   
+   const divSearch = document.createElement('div');
+   divSearch.className = 'student-search';
+   divHeader.appendChild(divSearch);
+   
+   const input = document.createElement('input');
+   input.placeholder = 'Search for students...';
+   divSearch.appendChild(input);
+   
+   const button = document.createElement('button');
+   button.textContent = 'Search';
+   divSearch.appendChild(button);
+}
+
+
 // calls showPage function to show the first maxDisplay items 
 showPage(studentList,1);
 // adds the pagination links to the bottom of the web page
 appendPageLinks(studentList);
+appendSearchBox();
