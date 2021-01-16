@@ -20,26 +20,39 @@ function showPage(studentList,page) {
 }
 
 
-/*** 
-   Create the `appendPageLinks function` to generate, append, and add 
-   functionality to the pagination buttons.
-***/
-
+// appendPageLinks takes in the list of students and generates functional pagination links. 
 function appendPageLinks(studentList) {
-   const pages = Math.ceil(studentList.length/maxDisplay);
+   // numPageButton is the number of page buttons needed to only display maxDisplay items at a time 
+   const numPageLinks = Math.ceil(studentList.length/maxDisplay);
+
+   // we select the div with the class "page" to eventually add our pagination buttons to.
    const divPage = document.querySelector('.page');
+
    const div = document.createElement('div');
    div.className = "pagination";
    const ul = document.createElement('ul');
-
-   for (let i = 0; i < pages; i++) {
+   // For each number of pagination links needed, an li element is created with an a element with its corresponding page number as the text content.
+   for (let i = 0; i < numPageLinks; i++) {
       const li = document.createElement('li');
       const a = document.createElement('a');
       a.textContent = i+1;
+      // sets the first pagination link to active
       if (i===0) {
          a.className = 'active';
       }
       a.href = '#';
+      // adds an event listener to all pagination links. Sets all pagination links class name to '' and only the selected link class name to 'active'. 
+      // then updates the page to show the student for the corresponding page by calling showPage function.
+      a.addEventListener('click', (e) => {
+         const page = a.textContent;
+         const liList = ul.children;
+         // loops through all the li children of ul and sets the a element class name to ''
+         for (let i = 0; i < numPageLinks; i++) {
+            liList[i].firstElementChild.className = "";
+         }
+         e.target.className = 'active';
+         showPage(studentList,page);
+      })
       li.appendChild(a);
       ul.appendChild(li);
    }
@@ -47,7 +60,7 @@ function appendPageLinks(studentList) {
    divPage.appendChild(div);
 }
 
+// calls showPage function to show the first maxDisplay items 
+showPage(studentList,1);
+// adds the pagination links to the bottom of the web page
 appendPageLinks(studentList);
-
-
-// Remember to delete the comments that came with this file, and replace them with your own code comments.
