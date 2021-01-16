@@ -84,7 +84,8 @@ function appendSearchBox() {
 }
 
 // searchName function takes in the parameters name and studentList 
-//    returns a new list of all the student names which include name
+// returns a new list of all the student names which include name
+// this function also updates the DOM to show the search results
 function searchName(search,studentList) {
    // This list will contain the list of students whos names match the search parameter
    let filterList = document.createDocumentFragment();
@@ -99,11 +100,16 @@ function searchName(search,studentList) {
          filterList.appendChild(studentList[i].cloneNode(true));
       }
    }
+
    // the parent of the student list is grabbed to clear the list
    const ul = document.querySelector('.student-list');
    ul.innerHTML = '';
-   // the filteredList of student gets appended as a child to the ul
-   ul.appendChild(filterList);
+   if (filterList.childElementCount !== 0) {
+      // the filteredList of student gets appended as a child to the ul if results where found
+      ul.appendChild(filterList);
+   } else {
+      ul.innerHTML = "<center>THERE ARE NO MATCHES</center>"
+   }
    // select the div element containing the pagination links to clear it 
    const divPage = document.querySelector('.page');
    divPage.removeChild(divPage.lastElementChild);
