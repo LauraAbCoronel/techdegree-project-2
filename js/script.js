@@ -72,6 +72,11 @@ function appendSearchBox() {
    const input = document.createElement('input');
    input.placeholder = 'Search for students...';
    divSearch.appendChild(input);
+   input.addEventListener('keyup', () => {
+      const filterList = searchName(input.value,studentList);
+      showPage(filterList,1);
+      appendPageLinks(filterList);
+   })
    
    const button = document.createElement('button');
    button.textContent = 'Search';
@@ -79,19 +84,31 @@ function appendSearchBox() {
 }
 
 // searchName function takes in the parameters name and studentList 
-//    returns filterList: a new list of all the student names which include name
+//    returns a new list of all the student names which include name
 function searchName(search,studentList) {
    // This list will contain the list of students whos names match the search parameter
-   let filterList = [];
+   let filterList = document.createDocumentFragment();
    for (let i = 0; i < studentList.length; i++) {
       // grab the student name that is stored in the h3 tags
       const studentName = studentList[i].querySelector('h3').textContent;
       if (search.length !== 0 && studentName.toLowerCase().includes(search.toLowerCase())) {
-         // adds the student name to the back of the filterList array
-         filterList.push(studentList[i]);
+         // makes a clone of the studen name node and append it as a child to filterList
+         filterList.appendChild(studentList[i].cloneNode(true));
+      } else if (search.length == 0) {
+         // if nothing in search input box filterList will store the original student list
+         filterList.appendChild(studentList[i].cloneNode(true));
       }
    }
-   return filterList;
+   // the parent of the student list is grabbed to clear the list
+   const ul = document.querySelector('.student-list');
+   ul.innerHTML = '';
+   // the filteredList of student gets appended as a child to the ul
+   ul.appendChild(filterList);
+   // select the div element containing the pagination links to clear it 
+   const divPage = document.querySelector('.page');
+   divPage.removeChild(divPage.lastElementChild);
+   // returns the new list of students 
+   return ul.children;
 }
 
 
