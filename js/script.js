@@ -94,17 +94,17 @@ function appendSearchBox() {
 // returns a new list of all the student names which include name
 // this function also updates the DOM to show the search results
 function searchName(search,studentList) {
-   // This list will contain the list of students whos names match the search parameter
+   // Create a blank Document Fragment to append studentList
    let filterList = document.createDocumentFragment();
    for (let i = 0; i < studentList.length; i++) {
       // grab the student name that is stored in the h3 tags
       const studentName = studentList[i].querySelector('h3').textContent;
-      if (search.length !== 0 && studentName.toLowerCase().includes(search.toLowerCase())) {
-         // makes a clone of the studen name node and append it as a child to filterList
-         filterList.appendChild(studentList[i].cloneNode(true));
-      } else if (search.length == 0) {
-         // if nothing in search input box filterList will store the original student list
-         filterList.appendChild(studentList[i].cloneNode(true));
+
+       // appends child if search is null OR studentName includes search query
+      if (!search || studentName.toLowerCase().includes(search.toLowerCase())) {
+         // filterList includes names of students that includes search query
+         // If search is empty, filterList will hold the original list of students
+         filterList.appendChild(studentList[i]);
       }
    }
 
@@ -115,6 +115,7 @@ function searchName(search,studentList) {
       // the filteredList of student gets appended as a child to the ul if results where found
       ul.appendChild(filterList);
    } else {
+      // if no results are found message is displayed to the user
       ul.innerHTML = "<center>THERE ARE NO MATCHES</center>"
    }
    // select the div element containing the pagination links to clear it 
